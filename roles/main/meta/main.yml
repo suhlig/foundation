@@ -1,0 +1,32 @@
+dependencies:
+  # - role: jnv.unattended-upgrades
+  #   become: true
+  #   tags: [ apt, unattended, system ]
+  # - role: ypsman.timedatectl
+  #   become: true
+  #   vars:
+  #     timedatectl_timeservers:
+  #       - ptbtime1.ptb.de
+  #       - ptbtime2.ptb.de
+  #       - ptbtime3.ptb.de
+  #     timedatectl_timeservers_fallback:
+  #       - 0.debian.pool.ntp.org
+  #       - 1.debian.pool.ntp.org
+  #     timedatectl_timezone: UTC
+  #   tags: [ time, date, ntp ]
+  # - role: thorian93.journald
+  #   become: true
+  #   tags: [ journald, systemd, storage, persistent ]
+galaxy_info:
+  role_name: main
+  description: Apply main configuration
+  author: Steffen Uhlig <steffen@familie-uhlig.net>
+  license: MIT
+  min_ansible_version: "2.6"
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all

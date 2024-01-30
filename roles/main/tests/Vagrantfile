@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+require 'pathname'
+
+Vagrant.configure('2') do |config|
+  ['ubuntu/jammy64', 'debian/bullseye64'].each do |box|
+    vm_name = box.split('/').last
+
+    config.vm.define(vm_name) do |machine|
+      machine.vm.box = box
+      machine.vm.provision 'role-under-test', type: 'ansible' do |ansible|
+        ansible.playbook = 'playbook.yml'
+        ansible.galaxy_roles_path = '../..'
+        ansible.compatibility_mode = '2.0'
+      end
+
+      machine.vm.provision 'test-prereqs', type: 'ansible' do |ansible|
+        ansible.playbook = 'prereqs.yml'
+        ansible.compatibility_mode = '2.0'
+      end
+
+      # re-run tests with
+      # vagrant provision --provision-with shell
+      Pathname.glob('**/*.bats').each do |test|
+        machine.vm.provision test.to_s, type: 'shell', path: test.to_s, privileged: false
+      end
+    end
+  end
+end

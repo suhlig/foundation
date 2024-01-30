@@ -1,0 +1,29 @@
+---
+- name: Sample playbook to deploy suhlig.foundation
+  hosts: all
+
+  roles:
+    - role: suhlig.foundation
+      become: true
+      tags: [ suhlig, bootstrap, foundation ]
+
+    - role: jnv.unattended-upgrades
+      become: true
+      tags: [ apt, unattended, system ]
+
+    - role: ypsman.timedatectl
+      become: true
+      vars:
+        timedatectl_timeservers:
+          - ptbtime1.ptb.de
+          - ptbtime2.ptb.de
+          - ptbtime3.ptb.de
+        timedatectl_timeservers_fallback:
+          - 0.debian.pool.ntp.org
+          - 1.debian.pool.ntp.org
+        timedatectl_timezone: UTC
+      tags: [ time, date, ntp ]
+
+    - role: thorian93.journald
+      become: true
+      tags: [ journald, systemd, storage, persistent ]

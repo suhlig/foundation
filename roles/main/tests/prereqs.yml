@@ -1,0 +1,18 @@
+---
+- name: Test prerequisites
+  hosts: all
+
+  tasks: # WIP
+  - name: bats-core repo is cloned and up-to-date
+    git:
+      repo: https://github.com/bats-core/bats-core.git
+      dest: /var/lib/bats-core
+    become: true
+    tags: git, bats
+
+  - name: bats-core is installed
+    command: ./install.sh /usr/local
+    args:
+      chdir: /var/lib/bats-core
+    become: true
+    tags: dotfiles, stow

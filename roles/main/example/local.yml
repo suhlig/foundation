@@ -1,0 +1,7 @@
+- name: Deploy suhlig.foundation locally
+  hosts: localhost
+  connection: local
+  roles:
+    - role: suhlig.foundation
+      become: true
+      tags: [ suhlig, bootstrap, foundation ]
