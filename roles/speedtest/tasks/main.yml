@@ -1,0 +1,26 @@
+- name: Prerequisite software is installed
+  apt:
+    update_cache: yes
+    name:
+      - apt-transport-https
+      - curl
+      - debian-archive-keyring
+      - gnupg
+  tags: [ apt, software, speedtest ]
+- name: apt source config is present
+  get_url: # os=debian dist=bullseye
+    url: "https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.list?os={{ ansible_os_family }}&dist={{ ansible_distribution_release }}&source=script"
+    dest: /etc/apt/sources.list.d/ookla_speedtest-cli.list
+    mode: "0755"
+  tags: [ apt, config, speedtest ]
+- name: GPG key is trusted
+  apt_key:
+    url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+    state: present
+    keyring: /etc/apt/keyrings/ookla_speedtest-cli-archive-keyring.gpg
+  tags: [ apt, key, speedtest, ookla ]
+- name: Speedtest is installed
+  apt:
+    update_cache: yes
+    name: speedtest
+  tags: [ apt, software, speedtest ]
