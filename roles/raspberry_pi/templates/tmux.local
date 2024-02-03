@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+# Colors from https://static.raspberrypi.org/files/Raspberry_Pi_Visual_Guidelines_2018.pdf
+set -g status-style "bg=#c51a4a"
+set -g window-status-current-style fg=black
+set -g window-status-current-style "bg=#6cc04a"
+
+# Raspi usually is memory-constrained
+set -g history-limit 999999

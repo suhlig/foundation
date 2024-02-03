@@ -1,0 +1,8 @@
+- name: tmux config is overlaid with local config
+  template:
+    src: tmux.local
+    dest: ~/.tmux.local
+    mode: 0644
+  become: true
+  become_user: suhlig
+  tags: tmux
