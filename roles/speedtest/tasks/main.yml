@@ -7,18 +7,36 @@
       - debian-archive-keyring
       - gnupg
   tags: [ apt, software, speedtest ]
+
+# worked on Raspberry Pis (maybe because /etc/apt/keyrings/ already existed?)
+# - name: GPG key is trusted
+#   apt_key:
+#     url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+#     state: present
+#     keyring: /etc/apt/keyrings/ookla_speedtest-cli-archive-keyring.gpg
+# - name: apt source config is present
+#   get_url: # os=debian dist=bullseye
+#     url: "https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.list?os={{ ansible_os_family }}&dist={{ ansible_distribution_release }}&source=script"
+#     dest: /etc/apt/sources.list.d/ookla_speedtest-cli.list
+#     mode: "0755"
+#   tags: [ apt, config, speedtest ]
+
+# - name: GPG key is trusted
+#   apt_key:
+#     url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+#     keyring: /etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg
+#   tags: [ apt, key, speedtest, ookla ]
+
+# from https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.list?os={{ ansible_os_family }}&dist={{ ansible_distribution_release }}&source=script
+# where os=debian and dist=bullseye
+# They have the wrong key location, so we might as well put the contents right there
 - name: apt source config is present
-  get_url: # os=debian dist=bullseye
-    url: "https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.list?os={{ ansible_os_family }}&dist={{ ansible_distribution_release }}&source=script"
-    dest: /etc/apt/sources.list.d/ookla_speedtest-cli.list
-    mode: "0755"
-  tags: [ apt, config, speedtest ]
-- name: GPG key is trusted
-  apt_key:
-    url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
-    state: present
-    keyring: /etc/apt/keyrings/ookla_speedtest-cli-archive-keyring.gpg
-  tags: [ apt, key, speedtest, ookla ]
+  apt_repository:
+    repo: "{{ item }}"
+    filename: ookla_speedtest-cli
+  with_items:
+    - "deb [signed-by=/etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg] https://packagecloud.io/ookla/speedtest-cli/{{ ansible_os_family | lower }}/ {{ ansible_distribution_release | lower }} main"
+    - "deb-src [signed-by=/etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg] https://packagecloud.io/ookla/speedtest-cli/{{ ansible_os_family | lower }}/ {{ ansible_distribution_release | lower }} main"
 - name: Speedtest is installed
   apt:
     update_cache: yes
