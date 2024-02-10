@@ -1,0 +1,38 @@
+- name: Software is installed
+  apt:
+    update_cache: yes
+    name:
+      - apt-transport-https
+      - aptitude # required for upgrade mode 'full'
+      - git
+      - htop
+      - jq
+      - neovim
+      - ripgrep
+      - software-properties-common
+      - sudo
+      - tmux
+      - zsh
+  tags: [apt, software]
+- name: Software is fully upgraded
+  apt:
+    upgrade: full
+  tags: [apt, upgrade]
+- name: Preferred locale exists
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+  tags: [l10n, i18n, locale]
+- name: Minimal tmux config is present
+  copy:
+    src: tmux.conf
+    dest: .tmux.conf
+    mode: "0644"
+  become: false
+  tags: [ tmux, config ]
+- name: User prefers zsh
+  user:
+    name: suhlig
+    comment: Steffen Uhlig
+    shell: /bin/zsh
+  tags: [suhlig, zsh]
