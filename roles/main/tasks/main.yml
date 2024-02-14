@@ -1,55 +1,3 @@
-- name: Software is installed
-  apt:
-    update_cache: yes
-    name:
-      - apt-transport-https
-      - aptitude # required for upgrade mode 'full'
-      - git
-      - htop
-      - jq
-      - neovim
-      - ripgrep
-      - software-properties-common
-      - stow
-      - sudo
-      - tmux
-      - zsh
-  tags: [apt, software]
-- name: Software is fully upgraded
-  apt:
-    upgrade: full
-  tags: [apt, upgrade]
-- name: Preferred locale exists
-  locale_gen:
-    name: en_US.UTF-8
-    state: present
-  tags: [l10n, i18n, locale]
-- name: User exists and prefers zsh
-  user:
-    name: suhlig
-    comment: Steffen Uhlig
-    shell: /bin/zsh
-    append: yes
-    password_lock: true
-    groups:
-      - users
-      - sudo
-  tags: [suhlig, su, sudo]
-- name: Passwordless sudo is enabled
-  copy:
-    dest: /etc/sudoers.d/suhlig
-    content: "suhlig ALL=(ALL) NOPASSWD: ALL"
-    validate: /usr/sbin/visudo -cf %s
-  tags: [sudo, su, password]
-- name: Public key is authorized
-  ansible.posix.authorized_key:
-    user: suhlig
-    state: present
-    key: "{{ item }}"
-  with_items:
-    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOiOOR/w5Hiu73hqmpjer7NKFsQ9FoeuqaP++8qTIJxltkYazKkf9/tPu7m4Y/CeCpflyCg3wh+1ef+Jp1GUlp08xMjwY7odjAt7jdH5CUgQ2UNb6ANaZ5QosrTD++nOPU6sclcnzBC42kw8SIYq5O9yAXsQM7OJNfg2yPUHhAag8k3TeQ4LoDDX4hL1O3bKBZTKIgZrhciQGEG/97dpCQedI+bbmva9A0nhbx418Q39IrY81sxjFmTGTbxD2BPuQZ4x5Vdsrd803AU/eQxAGDrLMQQu1Qj0sp1gnMCgrWLTQkkfu17wim7t3OVfghJ2EC4xROsL7LVZvJdSXkGIF2icI0Qy2XKxOnMEbgbonM1E0IFnU+c3m45B4939BJFLA+BwbFH8Y0tydz/vNTdPFGC5mxQNxo5Z/+dHrw5ULsFvQVDeKMOIE/UhbhuLgj8HNowBqfTBH/rP40Qf/MauUDg/ChDUGo7WEThmRNCDvJf7+BgMrEurOFqYDymvbd5/DJLFOR4I7j7BZhuQrLsjERJwnpsfCm+4iQ1TTe8S7wy31NSyjus1OLFz+e3/OyuJ+2WJxAcGxnl8iezK30HkjmVr7tf9upnKayudKTr+m1zqEdP6aW7GbsGTlwYWYZhmrUHgJskTQBUW61N9qtHakBiyBANqxpBtMSgn0e6W2xqw== suhlig@lux
-    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJZl2D53faTDMv0lc5wPfYbOAhM/Ym6BhEguGoO4q6Nd suhlig@lima
-  tags: [ssh, public-key]
 - name: oh-my-zsh repo is cloned and up-to-date
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
@@ -76,6 +24,7 @@
     - ~/.profile
     - ~/.bashrc
     - ~/.zshrc
+    - ~/.tmux.conf # override the one from suhlig.foundation.minimal
   become: true
   become_user: suhlig
   tags: [dotfiles, profile]
