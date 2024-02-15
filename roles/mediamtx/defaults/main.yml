@@ -1,0 +1,7 @@
+# map ansible_facts['architecture'] to the architecture part of the download URL
+deb_architectures:
+  armv6l: armv6
+  armv7l: armv7
+  aarch64: arm64v8
+  x86_64: amd64
+mediamtx_tag: v1.5.1 # get one from https://github.com/bluenviron/mediamtx/releases

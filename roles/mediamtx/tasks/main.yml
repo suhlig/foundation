@@ -1,0 +1,49 @@
+- name: Mediamtx binary is present
+  unarchive:
+    src: "https://github.com/bluenviron/mediamtx/releases/download/{{ mediamtx_tag }}/mediamtx_{{ mediamtx_tag }}_{{ ansible_system | lower }}_{{ [ansible_facts['architecture']] | map('extract', deb_architectures) | first }}.tar.gz"
+    dest: /usr/local/bin/
+    include: mediamtx
+    remote_src: true
+  become: yes
+  tags: [ mediamtx, binary, github ]
+- name: Config file is present
+  copy:
+    src: mediamtx.yml
+    dest: /usr/local/etc/
+    mode: "0644"
+  become: yes
+  tags: [ mediamtx, config ]
+- name: systemd service file is present
+  copy:
+    src: mediamtx.service
+    dest: "/etc/systemd/system/{{ ansible_role_name }}.service"
+    mode: "0644"
+  register: service_rendered
+  become: yes
+  tags: [ mediamtx, systemd, service, config ]
+- name: libcamera.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
+  ansible.builtin.file:
+    src: /lib/aarch64-linux-gnu/libcamera.so.0.0
+    dest: /lib/aarch64-linux-gnu/libcamera.so.0.1
+    state: link
+  tags: [ mediamtx, libcamera, library, symlink ]
+- name: libcamera-base.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
+  ansible.builtin.file:
+    src: /lib/aarch64-linux-gnu/libcamera-base.so.0.0
+    dest: /lib/aarch64-linux-gnu/libcamera-base.so.0.1
+    state: link
+  tags: [ mediamtx, libcamera, library, symlink ]
+- name: Systemd service is enabled and started
+  systemd: &service
+    name: "{{ ansible_role_name }}.service"
+    state: started
+    enabled: true
+    daemon_reload: true
+  when: not(service_rendered.changed)
+  tags: [ systemd, service, config ]
+- name: Systemd service is enabled and restarted
+  systemd:
+    <<: *service
+    state: restarted
+  when: service_rendered.changed
+  tags: [ systemd, service, config ]
