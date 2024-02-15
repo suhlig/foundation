@@ -1,5 +1,0 @@
-- name: Restart Networking
-  service:
-    name: networking
-    state: restarted
-  become: yes
