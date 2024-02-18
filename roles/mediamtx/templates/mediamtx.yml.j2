@@ -386,86 +386,86 @@ pathDefaults:
   # Default path settings -> Raspberry Pi Camera source (when source is "rpiCamera")
 
   # ID of the camera
-  rpiCameraCamID: 0
+  rpiCameraCamID: {{ rpiCameraCamID }}
   # width of frames
-  rpiCameraWidth: 1920
+  rpiCameraWidth: {{ rpiCameraWidth }}
   # height of frames
-  rpiCameraHeight: 1080
+  rpiCameraHeight: {{ rpiCameraHeight }}
   # flip horizontally
-  rpiCameraHFlip: false
+  rpiCameraHFlip: {{ rpiCameraHFlip }}
   # flip vertically
-  rpiCameraVFlip: false
+  rpiCameraVFlip: {{ rpiCameraVFlip }}
   # brightness [-1, 1]
-  rpiCameraBrightness: 0
+  rpiCameraBrightness: {{ rpiCameraBrightness }}
   # contrast [0, 16]
-  rpiCameraContrast: 1
+  rpiCameraContrast: {{ rpiCameraContrast }}
   # saturation [0, 16]
-  rpiCameraSaturation: 1
+  rpiCameraSaturation: {{ rpiCameraSaturation }}
   # sharpness [0, 16]
-  rpiCameraSharpness: 1
+  rpiCameraSharpness: {{ rpiCameraSharpness }}
   # exposure mode.
   # values: normal, short, long, custom
-  rpiCameraExposure: normal
+  rpiCameraExposure: {{ rpiCameraExposure }}
   # auto-white-balance mode.
   # values: auto, incandescent, tungsten, fluorescent, indoor, daylight, cloudy, custom
-  rpiCameraAWB: auto
+  rpiCameraAWB: {{ rpiCameraAWB }}
   # auto-white-balance fixed gains. This can be used in place of rpiCameraAWB.
   # format: [red,blue]
-  rpiCameraAWBGains: [0, 0]
+  rpiCameraAWBGains: {{ rpiCameraAWBGains }}
   # denoise operating mode.
   # values: off, cdn_off, cdn_fast, cdn_hq
-  rpiCameraDenoise: "off"
+  rpiCameraDenoise: "{{ rpiCameraDenoise }}"
   # fixed shutter speed, in microseconds.
-  rpiCameraShutter: 0
+  rpiCameraShutter: {{ rpiCameraShutter }}
   # metering mode of the AEC/AGC algorithm.
   # values: centre, spot, matrix, custom
-  rpiCameraMetering: centre
+  rpiCameraMetering: {{ rpiCameraMetering }}
   # fixed gain
-  rpiCameraGain: 0
+  rpiCameraGain: {{ rpiCameraGain }}
   # EV compensation of the image [-10, 10]
-  rpiCameraEV: 0
+  rpiCameraEV: {{ rpiCameraEV }}
   # Region of interest, in format x,y,width,height
-  rpiCameraROI:
+  rpiCameraROI: {{ rpiCameraROI }}
   # whether to enable HDR on Raspberry Camera 3.
-  rpiCameraHDR: false
+  rpiCameraHDR: {{ rpiCameraHDR }}
   # tuning file
-  rpiCameraTuningFile:
+  rpiCameraTuningFile: {{ rpiCameraTuningFile }}
   # sensor mode, in format [width]:[height]:[bit-depth]:[packing]
   # bit-depth and packing are optional.
-  rpiCameraMode:
+  rpiCameraMode: {{ rpiCameraMode }}
   # frames per second
-  rpiCameraFPS: 30
+  rpiCameraFPS: {{ rpiCameraFPS }}
   # period between IDR frames
-  rpiCameraIDRPeriod: 60
+  rpiCameraIDRPeriod: {{ rpiCameraIDRPeriod }}
   # bitrate
-  rpiCameraBitrate: 1000000
+  rpiCameraBitrate: {{ rpiCameraBitrate }}
   # H264 profile
-  rpiCameraProfile: main
+  rpiCameraProfile: {{ rpiCameraProfile }}
   # H264 level
-  rpiCameraLevel: '4.1'
+  rpiCameraLevel: "{{ rpiCameraLevel }}"
   # Autofocus mode
   # values: auto, manual, continuous
-  rpiCameraAfMode: continuous
+  rpiCameraAfMode: {{ rpiCameraAfMode }}
   # Autofocus range
   # values: normal, macro, full
-  rpiCameraAfRange: normal
+  rpiCameraAfRange: {{ rpiCameraAfRange }}
   # Autofocus speed
   # values: normal, fast
-  rpiCameraAfSpeed: normal
+  rpiCameraAfSpeed: {{ rpiCameraAfSpeed }}
   # Lens position (for manual autofocus only), will be set to focus to a specific distance
   # calculated by the following formula: d = 1 / value
   # Examples: 0 moves the lens to infinity.
   #           0.5 moves the lens to focus on objects 2m away.
   #           2 moves the lens to focus on objects 50cm away.
-  rpiCameraLensPosition: 0.0
+  rpiCameraLensPosition: {{ rpiCameraLensPosition }}
   # Specifies the autofocus window, in the form x,y,width,height where the coordinates
   # are given as a proportion of the entire image.
-  rpiCameraAfWindow:
+  rpiCameraAfWindow: {{ rpiCameraAfWindow }}
   # enables printing text on each frame.
-  rpiCameraTextOverlayEnable: false
+  rpiCameraTextOverlayEnable: {{ rpiCameraTextOverlayEnable }}
   # text that is printed on each frame.
   # format is the one of the strftime() function.
-  rpiCameraTextOverlay: '%Y-%m-%d %H:%M:%S - MediaMTX'
+  rpiCameraTextOverlay: "{{ rpiCameraTextOverlay }}"
 
   ###############################################
   # Default path settings -> Hooks
