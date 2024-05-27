@@ -6,3 +6,10 @@
   become: true
   become_user: suhlig
   tags: tmux
+- name: Hardware watchdog is enabled # https://raspberrypi.stackexchange.com/a/113193
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: '^RuntimeWatchdogSec='
+    line: RuntimeWatchdogSec=12s
+  become: true
+  tags: [ hardware, watchdog ]
