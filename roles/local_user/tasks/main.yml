@@ -1,0 +1,35 @@
+- name: user "{{ local_user.name }}" exists
+  ansible.builtin.user:
+    name: "{{ local_user.name }}"
+    state: present
+  tags: [ folders ]
+- name: user "{{ local_user.name }}" accepts github keys of {{local_user.github_user}}
+  ansible.posix.authorized_key:
+    user: "{{ local_user.name }}"
+    state: present
+    key: https://github.com/{{local_user.github_user}}.keys
+  tags: [ user, ssh ]
+- name: zsh is installed
+  apt:
+    update_cache: yes
+    name: [ zsh ]
+  tags: [ apt, software, zsh ]
+- name: zsh is the shell
+  user:
+    name: "{{ local_user.name }}"
+    shell: /usr/bin/zsh
+  tags: [ shell, zsh ]
+- name: There is no stupid login message
+  file:
+    path:  "/home/{{ local_user.name }}/.hushlogin"
+    state: touch
+    owner: "{{ local_user.name }}"
+    group: "{{ local_user.name }}"
+    mode:  0755
+  tags: [ user, login ]
+- name: Passwordless sudo is enabled
+  copy:
+    dest: "/etc/sudoers.d/{{ local_user.name }}"
+    content: "{{ local_user.name }} ALL=(ALL) NOPASSWD: ALL"
+    validate: /usr/sbin/visudo -cf %s
+  tags: [ sudo, su, password ]
