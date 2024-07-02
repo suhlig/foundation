@@ -15,22 +15,3 @@ dependencies:
   - role: suhlig.foundation.minimal
     become: true
     tags: [ suhlig ]
-  - role: thorian93.main.upgrade
-    vars: { upgrade_stable_os: [ Debian 11, Debian 12 ] }
-    become: yes
-    tags: [ system, upgrade ]
-  - role: thorian93.main.journald
-    vars: { journald_stable_os: [ Debian 11, Debian 12 ] }
-    become: yes
-    tags: [ system, journald ]
-  - role: thorian93.main.common
-    vars:
-      common_configure_timezone: true
-      common_timezone: Europe/Berlin
-      common_stable_os: [ Debian 11, Debian 12 ]
-    become: yes
-    tags: [ system, timezone ]
-  - role: thorian93.main.ntp
-    vars: { ntp_stable_os: [ Debian 11, Debian 12 ] }
-    become: yes
-    tags: [ system, ntp ]
