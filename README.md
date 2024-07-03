@@ -28,6 +28,7 @@ TODO - not yet fully spec'd out
 # Publishing the Collection Manually
 
 ```command
-$ ansible-galaxy collection build --force
-$ ansible-galaxy collection publish suhlig-foundation-"$version".tar.gz --token $(cat ~/.ansible-galaxy-token)
+$ ansible-galaxy collection build --force \
+  && ansible-galaxy collection publish suhlig-foundation-*.tar.gz --token $(cat ~/.ansible-galaxy-token) \
+  ; rm suhlig-foundation-*.tar.gz
 ```
