@@ -1,7 +1,7 @@
-- name: Deploy suhlig.foundation locally
+- name: Deploy suhlig.foundation.main locally
   hosts: localhost
   connection: local
   roles:
-    - role: suhlig.foundation
+    - role: suhlig.foundation.main
       become: true
       tags: [ suhlig, bootstrap, foundation ]

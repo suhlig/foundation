@@ -1,9 +1,9 @@
 ---
-- name: Sample playbook to deploy suhlig.foundation
+- name: Sample playbook to deploy suhlig.foundation.main
   hosts: all
 
   roles:
-    - role: suhlig.foundation
+    - role: suhlig.foundation.main
       become: true
       tags: [ suhlig, bootstrap, foundation ]
 
