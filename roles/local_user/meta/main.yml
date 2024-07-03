@@ -1,0 +1,13 @@
+galaxy_info:
+  role_name: local_user
+  description: Install local OS user
+  author: Steffen Uhlig <steffen@familie-uhlig.net>
+  license: MIT
+  min_ansible_version: "2.6"
+  platforms:
+    - name: Debian
+      versions:
+        - [ 11, 12 ]
+    - name: Ubuntu
+      versions:
+        - all
