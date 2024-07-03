@@ -12,10 +12,6 @@ galaxy_info:
       versions:
         - all
 dependencies:
-  - role: thorian93.main.upgrade
-    vars: { upgrade_stable_os: [ Ubuntu 24 ] }
-    become: yes
-    tags: [ system, upgrade ]
   - role: thorian93.main.journald
     vars: { journald_stable_os: [ Ubuntu 24 ] }
     become: yes
