@@ -4,7 +4,7 @@ deb_architectures:
   armv7l: armv7
   aarch64: arm64v8
   x86_64: amd64
-mediamtx_tag: v1.5.1 # get one from https://github.com/bluenviron/mediamtx/releases
+mediamtx_tag: v1.8.2 # get one from https://github.com/bluenviron/mediamtx/releases
 rpiCameraCamID: 0
 rpiCameraWidth: 1920
 rpiCameraHeight: 1080
