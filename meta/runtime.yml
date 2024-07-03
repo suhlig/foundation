@@ -1,1 +1,1 @@
-requires_ansible: '>=2.17.1'
+requires_ansible: '>=2.16.3'
