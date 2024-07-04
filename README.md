@@ -32,3 +32,10 @@ $ ansible-galaxy collection build --force \
   && ansible-galaxy collection publish suhlig-foundation-*.tar.gz --token $(cat ~/.ansible-galaxy-token) \
   ; rm suhlig-foundation-*.tar.gz
 ```
+
+# Testing the Collection
+
+```command
+$ ansible-galaxy collection install suhlig.foundation # append e.g. :==1.2.2 for a specific version
+$ ansible-pull --url=https://github.com/suhlig/foundation roles/main/example/local.yml
+```
