@@ -1,6 +1,7 @@
 - name: user "{{ local_user.name }}" exists
   ansible.builtin.user:
     name: "{{ local_user.name }}"
+    comment: "{{ local_user.comment }}"
     state: present
   tags: [ folders ]
 - name: user "{{ local_user.name }}" accepts github keys of {{local_user.github_user}}

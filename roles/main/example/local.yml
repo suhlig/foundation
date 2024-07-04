@@ -2,6 +2,14 @@
   hosts: localhost
   connection: local
   roles:
+    - role: suhlig.foundation.local_user
+      vars:
+        local_user:
+          name: suhlig
+          comment: Steffen Uhlig
+          github_user: suhlig
+      become: true
+      tags: [ suhlig, user ]
     - role: suhlig.foundation.main
       become: true
       tags: [ suhlig, bootstrap, foundation ]
