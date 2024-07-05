@@ -25,13 +25,13 @@
     - ~/.bashrc
     - ~/.zshrc
     - ~/.tmux.conf # override the one from suhlig.foundation.minimal
+    - ~/.hushlogin # may be there from suhlig.foundation.local_user
   become: true
   become_user: suhlig
   tags: [dotfiles, profile]
 - name: dotfiles are stowed
   command: stow common linux
-  args:
-    chdir: ~/.dotfiles
+  args: { chdir: ~/.dotfiles }
   become: true
   become_user: suhlig
   tags: [dotfiles, stow]
