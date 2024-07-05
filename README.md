@@ -8,8 +8,13 @@ TODO - not yet fully spec'd out
 
 1. "bump" job
 
-    - bumps the version (major, minor or patch)
-    - publishes the new version number (represented in metadata branch or by name of the collection in S3 bucket)
+    - bumps the version (`major`, `minor` or `patch`) in galaxy.yml
+
+      ```command
+      $ bump="patch" yq --inplace '.version |= (split(".") | .[ {"major": -3, "minor": -2, "patch": -1}[env(bump)] ] |= ((. tag = "!!int") + 1) | join("."))' galaxy.yml
+      ```
+
+    - commits the file and pushes the repo
 
 1. "build" job
 
@@ -24,6 +29,22 @@ TODO - not yet fully spec'd out
     - makes the commit for bumping the version
     - creates the git tag with `$version` for this ^^^ commit
     - publishes the collection tarball to Galaxy
+
+# CI Alternative
+
+One instance of the pipeline for each of {`major`, `minor`, `patch`}
+
+Tasks of publish job:
+
+1. Bump the version in `galaxy.yml`
+1. Make a commit
+1. Add the git tag as per `galaxy.yml`
+1. Build the collection
+1. Publish the collection
+1. Push the repo
+
+That way we do not push the tag unless publishing the collection succeeded, and we don't have to store the tarball between build and publish.
+Pipeline instances allow re-use of the very same pipeline config.
 
 # Publishing the Collection Manually
 
