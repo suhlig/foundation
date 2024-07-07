@@ -13,9 +13,3 @@
     - role: suhlig.foundation.main
       become: true
       tags: [ suhlig, bootstrap, foundation ]
-    - role: artis3n.tailscale
-      vars:
-        tailscale_args: --accept-routes
-        tailscale_up_skip: true  # setup tailscale manually so we don't have to save the auth key here
-      become: true
-      tags: [ tailscale ]
