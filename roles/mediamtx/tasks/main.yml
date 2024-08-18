@@ -23,28 +23,28 @@
   tags: [ mediamtx, systemd, service, config ]
 - name: libcamera.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
   ansible.builtin.file:
-    src: /lib/aarch64-linux-gnu/libcamera.so.0.1
+    src: /lib/aarch64-linux-gnu/libcamera.so.0.3
     dest: /lib/aarch64-linux-gnu/libcamera.so.0.0
     state: link
   when: ansible_architecture == "aarch64"
   tags: [ mediamtx, libcamera, library, symlink ]
 - name: libcamera-base.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
   ansible.builtin.file:
-    src: /lib/aarch64-linux-gnu/libcamera-base.so.0.1
+    src: /lib/aarch64-linux-gnu/libcamera-base.so.0.3
     dest: /lib/aarch64-linux-gnu/libcamera-base.so.0.0
     state: link
   when: ansible_architecture == "aarch64"
   tags: [ mediamtx, libcamera, library, symlink ]
 - name: libcamera.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
   ansible.builtin.file:
-    src: /usr/lib/arm-linux-gnueabihf/libcamera.so.0.1.0
+    src: /usr/lib/arm-linux-gnueabihf/libcamera.so.0.3.0
     dest: /usr/lib/arm-linux-gnueabihf/libcamera.so.0.0
     state: link
   when: ansible_architecture == "armv6l"
   tags: [ mediamtx, libcamera, library, symlink ]
 - name: libcamera-base.so is symlinked # https://github.com/bluenviron/mediamtx/issues/2581#issuecomment-1804108215
   ansible.builtin.file:
-    src: /usr/lib/arm-linux-gnueabihf/libcamera-base.so.0.1.0
+    src: /usr/lib/arm-linux-gnueabihf/libcamera-base.so.0.3.0
     dest: /usr/lib/arm-linux-gnueabihf/libcamera-base.so.0.0
     state: link
   when: ansible_architecture == "armv6l"
