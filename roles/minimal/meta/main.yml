@@ -13,17 +13,17 @@ galaxy_info:
         - all
 dependencies:
   - role: thorian93.main.journald
-    vars: { journald_stable_os: [ Ubuntu 24 ] }
+    vars: { journald_stable_os: [ Ubuntu 24, Debian 12 ] }
     become: yes
     tags: [ system, journald ]
   - role: thorian93.main.common
     vars:
       common_configure_timezone: true
       common_timezone: Europe/Berlin
-      common_stable_os: [ Ubuntu 24 ]
+      common_stable_os: [ Ubuntu 24, Debian 12 ]
     become: yes
     tags: [ system, timezone ]
   - role: thorian93.main.ntp
-    vars: { ntp_stable_os: [ Ubuntu 24 ] }
+    vars: { ntp_stable_os: [ Ubuntu 24, Debian 12 ] }
     become: yes
     tags: [ system, ntp ]
