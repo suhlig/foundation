@@ -9,7 +9,14 @@
 - name: Hardware watchdog is enabled # https://raspberrypi.stackexchange.com/a/113193
   ansible.builtin.lineinfile:
     path: /etc/systemd/system.conf
-    regexp: '^RuntimeWatchdogSec='
-    line: RuntimeWatchdogSec=12s
+    regexp: "{{item.regex}}"
+    line: "{{item.replace_with}}"
+  with_items:
+    - regex: ^RuntimeWatchdogSec=
+      replace_with: RuntimeWatchdogSec=12s
+    - regex: ^DefaultTimeoutStopSec=
+      replace_with: DefaultTimeoutStopSec=10
+    - regex: ^RebootWatchdogSec=
+      replace_with: RebootWatchdogSec=2min
   become: true
   tags: [ hardware, watchdog ]
