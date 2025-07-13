@@ -13,5 +13,6 @@ galaxy_info:
         - all
 dependencies:
   - role: suhlig.foundation.minimal
+    vars: { journald_stable_os: [ Ubuntu 24 ] }
     become: true
     tags: [ suhlig ]

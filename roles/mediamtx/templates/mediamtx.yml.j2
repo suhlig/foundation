@@ -513,9 +513,9 @@ pathDefaults:
   # height of frames
   rpiCameraHeight: {{ rpiCameraHeight }}
   # flip horizontally
-  rpiCameraHFlip: {{ rpiCameraHFlip }}
+  rpiCameraHFlip: {{ rpiCameraHFlip | lower }}
   # flip vertically
-  rpiCameraVFlip: {{ rpiCameraVFlip }}
+  rpiCameraVFlip: {{ rpiCameraVFlip | lower }}
   # brightness [-1, 1]
   rpiCameraBrightness: {{ rpiCameraBrightness }}
   # contrast [0, 16]
@@ -583,7 +583,7 @@ pathDefaults:
   # are given as a proportion of the entire image.
   rpiCameraAfWindow: {{ rpiCameraAfWindow }}
   # enables printing text on each frame.
-  rpiCameraTextOverlayEnable: {{ rpiCameraTextOverlayEnable }}
+  rpiCameraTextOverlayEnable: {{ rpiCameraTextOverlayEnable | lower }}
   # text that is printed on each frame.
   # format is the one of the strftime() function.
   rpiCameraTextOverlay: "{{ rpiCameraTextOverlay }}"
