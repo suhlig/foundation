@@ -12,6 +12,9 @@ galaxy_info:
       versions:
         - all
 dependencies:
+  - role: hifis.toolkit.unattended_upgrades
+    become: true
+    tags: [ apt, unattended, system ]
   - role: thorian93.main.journald
     become: yes
     tags: [ system, journald ]
