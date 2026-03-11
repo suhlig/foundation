@@ -1,7 +1,7 @@
 - name: Prerequisite software is installed
   apt:
     update_cache: yes
-    name: [ acl ]
+    name: [ acl, stow ]
   tags: [ apt, software, acl ]
 - name: oh-my-zsh repo is cloned and up-to-date
   git:

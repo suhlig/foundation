@@ -10,10 +10,17 @@
     state: present
     key: https://github.com/{{local_user.github_user}}.keys
   tags: [ user, ssh ]
-- name: zsh is installed
+- name: software is installed
   apt:
     update_cache: yes
-    name: [ zsh ]
+    name:
+      - git
+      - htop
+      - jq
+      - neovim
+      - ripgrep
+      - tmux
+      - zsh
   tags: [ apt, software, zsh ]
 - name: zsh is the shell
   user:
@@ -34,3 +41,9 @@
     content: "{{ local_user.name }} ALL=(ALL) NOPASSWD: ALL"
     validate: /usr/sbin/visudo -cf %s
   tags: [ sudo, su, password ]
+- name: Minimal tmux config is present
+  copy:
+    src: tmux.conf
+    dest: "/home/{{ local_user.name }}/.tmux.conf"
+    mode: "0644"
+  tags: [ tmux, config ]
