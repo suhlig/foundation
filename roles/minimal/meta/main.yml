@@ -7,13 +7,13 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - [ 11, 12 ]
+        - [ 11, 12, 13 ]
     - name: Ubuntu
       versions:
         - all
 dependencies:
   - role: hifis.toolkit.unattended_upgrades
-    become: true
+    become: yes
     tags: [ apt, unattended, system ]
   - role: thorian93.main.journald
     become: yes
