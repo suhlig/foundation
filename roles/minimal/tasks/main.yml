@@ -3,14 +3,14 @@
     update_cache: yes
     name:
       - apt-transport-https
-#      - aptitude # required for upgrade mode 'full'
 #      - software-properties-common # Not needed on Debian 13 anymore
+      - aptitude # required for upgrade mode 'full'
       - sudo
   tags: [apt, software]
-# - name: Software is fully upgraded
-#   apt:
-#     upgrade: full
-#   tags: [apt, upgrade]
+- name: Software is fully upgraded
+  ansible.builtin.apt:
+    upgrade: full
+  tags: [apt, upgrade]
 - name: Preferred locale exists
   ansible.builtin.locale_gen:
     name: en_US.UTF-8
