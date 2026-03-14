@@ -1,5 +1,5 @@
 - name: Prerequisite software is installed
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     name: [ acl, stow ]
   tags: [ apt, software, acl ]
@@ -14,7 +14,7 @@
   become_user: suhlig
   tags: git, dotfiles, ohmyzsh
 - name: dotfiles repo is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/suhlig/dotfiles
     dest: ~/.dotfiles
   environment:
@@ -23,7 +23,7 @@
   become_user: suhlig
   tags: [git, dotfiles]
 - name: Unwanted default dotfiles are not present
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   with_items:
@@ -36,13 +36,13 @@
   become_user: suhlig
   tags: [dotfiles, profile]
 - name: dotfiles are stowed
-  command: stow common linux
+  ansible.builtin.command: stow common linux
   args: { chdir: ~/.dotfiles }
   become: true
   become_user: suhlig
   tags: [dotfiles, stow]
 - name: oh-my-zsh autoupdate plugin is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/TamCore/autoupdate-oh-my-zsh-plugins
     dest: ~/.oh-my-zsh/custom/plugins/autoupdate
   environment:
@@ -51,7 +51,7 @@
   become_user: suhlig
   tags: [git, dotfiles, ohmyzsh, plugin]
 - name: zsh-vi-mode plugin is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/jeffreytse/zsh-vi-mode
     dest: ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
   environment:
@@ -60,7 +60,7 @@
   become_user: suhlig
   tags: [git, dotfiles, ohmyzsh, plugin]
 - name: zsh-syntax-highlighting plugin is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   environment:
@@ -69,7 +69,7 @@
   become_user: suhlig
   tags: [git, dotfiles, ohmyzsh, plugin]
 - name: zsh-autosuggestions plugin is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   environment:
@@ -78,7 +78,7 @@
   become_user: suhlig
   tags: [git, dotfiles, ohmyzsh, plugin]
 - name: tmux tpm plugin is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: ~/.tmux/plugins/tpm
   environment:

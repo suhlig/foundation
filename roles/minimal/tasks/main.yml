@@ -1,5 +1,5 @@
 - name: Software is installed
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     name:
       - apt-transport-https
@@ -12,7 +12,7 @@
 #     upgrade: full
 #   tags: [apt, upgrade]
 - name: Preferred locale exists
-  locale_gen:
+  ansible.builtin.locale_gen:
     name: en_US.UTF-8
     state: present
   tags: [l10n, i18n, locale]
