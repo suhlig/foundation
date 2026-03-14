@@ -20,3 +20,8 @@
       replace_with: RebootWatchdogSec=2min
   become: true
   tags: [ hardware, watchdog ]
+- name: RAM is the log target
+  apt:
+    update_cache: yes
+    name: [ log2ram ]
+  tags: [ apt, software, log, ram ]
