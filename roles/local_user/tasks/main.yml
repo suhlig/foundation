@@ -47,3 +47,11 @@
     dest: "/home/{{ local_user.name }}/.tmux.conf"
     mode: "0644"
   tags: [ tmux, config ]
+- name: Minimal .zshrc is present
+  ansible.builtin.file:
+    path: "/home/{{ local_user.name }}/.zshrc"
+    state: touch
+    owner: "{{ local_user.name }}"
+    group: "{{ local_user.name }}"
+    mode:  0755
+  tags: [ zsh, config ]
