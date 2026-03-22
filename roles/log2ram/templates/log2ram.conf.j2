@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+SIZE={{ log2ram_size | default('128M') }}
+MAIL=false
+ZL2R=false
+LOG_DISK_SPACE={{ log2ram_log_disk_space | default('1G') }}

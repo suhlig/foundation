@@ -1,0 +1,42 @@
+- name: log2ram dependencies are installed
+  apt:
+    name:
+      - git
+      - make
+      - gcc
+      - systemd-cron
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+- name: log2ram repository is present in /tmp/log2ram
+  git:
+    repo: https://github.com/azlux/log2ram.git
+    dest: /tmp/log2ram
+    version: master
+  changed_when: false
+- name: log2ram installation status is known
+  ansible.builtin.stat:
+    path: /usr/local/bin/log2ram
+  register: log2ram_bin
+- name: log2ram is installed
+  shell: ./install.sh
+  args:
+    chdir: /tmp/log2ram
+  when: not log2ram_bin.stat.exists
+- name: log2ram is configured with specified size
+  template:
+    src: log2ram.conf.j2
+    dest: /etc/log2ram.conf
+    mode: "0644"
+  notify: restart log2ram
+- name: Ensure log2ram service is enabled
+  systemd:
+    name: log2ram
+    enabled: yes
+    daemon_reload: yes
+- name: Ensure journal directory exists
+  file:
+    path: /var/log/journal
+    state: directory
+    mode: "0755"
+  notify: restart journald
