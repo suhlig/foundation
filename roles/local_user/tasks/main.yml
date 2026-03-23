@@ -11,7 +11,7 @@
     key: https://github.com/{{local_user.github_user}}.keys
   tags: [ user, ssh ]
 - name: software is installed
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     name:
       - git
@@ -23,7 +23,7 @@
       - zsh
   tags: [ apt, software, zsh ]
 - name: zsh is the shell
-  user:
+  ansible.builtin.user:
     name: "{{ local_user.name }}"
     shell: /usr/bin/zsh
   tags: [ shell, zsh ]

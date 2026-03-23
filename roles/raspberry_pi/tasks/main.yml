@@ -1,5 +1,5 @@
 - name: tmux config is overlaid with local config
-  template:
+  ansible.builtin.template:
     src: tmux.local
     dest: ~/.tmux.local
     mode: 0644

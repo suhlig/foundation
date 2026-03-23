@@ -4,7 +4,7 @@
     name: [ acl, stow ]
   tags: [ apt, software, acl ]
 - name: oh-my-zsh repo is cloned and up-to-date
-  git:
+  ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: ~/.oh-my-zsh
     mode: 0755

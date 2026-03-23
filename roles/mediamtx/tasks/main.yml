@@ -1,5 +1,5 @@
 - name: Mediamtx binary is present
-  unarchive:
+  ansible.builtin.unarchive:
     src: "https://github.com/bluenviron/mediamtx/releases/download/{{ mediamtx_tag }}/mediamtx_{{ mediamtx_tag }}_{{ ansible_system | lower }}_{{ [ansible_facts['architecture']] | map('extract', deb_architectures) | first }}.tar.gz"
     dest: /usr/local/bin/
     include: mediamtx
@@ -7,14 +7,14 @@
   become: yes
   tags: [ mediamtx, binary, github ]
 - name: Config file is present # program will detect a changed config file itself
-  template:
+  ansible.builtin.template:
     src: mediamtx.yml.j2
     dest: /usr/local/etc/mediamtx.yml
     mode: "0644"
   become: yes
   tags: [ mediamtx, config ]
 - name: systemd service file is present
-  copy:
+  ansible.builtin.copy:
     src: mediamtx.service
     dest: "/etc/systemd/system/mediamtx.service"
     mode: "0644"
@@ -22,7 +22,7 @@
   become: yes
   tags: [ mediamtx, systemd, service, config ]
 - name: Systemd service is enabled and started
-  systemd: &service
+  ansible.builtin.systemd: &service
     name: "mediamtx.service"
     state: started
     enabled: true
@@ -30,7 +30,7 @@
   when: not(service_rendered.changed)
   tags: [ systemd, service, config ]
 - name: Systemd service is enabled and restarted
-  systemd:
+  ansible.builtin.systemd:
     <<: *service
     state: restarted
   when: service_rendered.changed
