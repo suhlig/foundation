@@ -1,0 +1,11 @@
+- name: Atuin installer script is available
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh
+    dest: /tmp/install_atuin.sh
+    mode: "0755"
+  tags: [ atuin, shell, history ]
+- name: Atuin is installed
+  ansible.builtin.command: /tmp/install_atuin.sh --non-interactive
+  args: { creates: ~/.atuin/bin/atuin }
+  become_user: suhlig
+  tags: [ atuin, shell, history ]
