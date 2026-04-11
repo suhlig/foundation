@@ -1,0 +1,21 @@
+---
+# The name of the container and the prefix for Traefik labels
+konsible_app_name: "app"
+
+# The domain for the Traefik router
+konsible_domain: "{{ domain }}"
+
+# Which docker network trafik is connected to
+konsible_docker_network: traefik
+
+# The Go package name to build; either local (e.g. "./golden-egg") or fully qualified (e.g. "github.com/nowak-reisen/pile/golden-egg")
+konsible_package: "./app"
+
+# The platform to build for
+konsible_platform: "linux/arm64"
+
+# The port the app listens on inside the container
+konsible_port: "8080"
+
+# Additional labels to add to the app container
+konsible_labels: {}

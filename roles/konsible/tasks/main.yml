@@ -37,7 +37,7 @@
     detach: true
     restart: true
     restart_policy: always
-    networks: [  name: traefik ]
+    networks: [ name: "{{ konsible_docker_network }}" ]
     labels: |
       {{
         {
@@ -46,7 +46,7 @@
           'traefik.http.routers.' ~ konsible_app_name ~ '.entrypoints': 'websecure',
           'traefik.http.routers.' ~ konsible_app_name ~ '.tls.certresolver': 'letsencrypt',
           'traefik.http.services.' ~ konsible_app_name ~ '.loadbalancer.server.port': konsible_port | string
-        }
+        } | combine(konsible_labels)
       }}
 - name: app is reachable
   uri:
