@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Steffen Uhlig
+  description: An opinionated Ansible role to build and deploy Go HTTP servers as Docker containers behind Traefik.
+  license: MIT
+  min_ansible_version: "2.1"
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+  galaxy_tags:
+    - golang
+    - docker
+    - traefik
+    - ko
+dependencies: []
