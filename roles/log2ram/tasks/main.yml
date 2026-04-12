@@ -8,6 +8,7 @@
     state: present
     update_cache: yes
   when: ansible_os_family == "Debian"
+  become: true
 - name: log2ram repository is present in /tmp/log2ram
   ansible.builtin.git:
     repo: https://github.com/azlux/log2ram.git
@@ -23,20 +24,24 @@
   args:
     chdir: /tmp/log2ram
   when: not log2ram_bin.stat.exists
+  become: true
 - name: log2ram is configured with specified size
   ansible.builtin.template:
     src: log2ram.conf.j2
     dest: /etc/log2ram.conf
     mode: "0644"
   notify: restart log2ram
+  become: true
 - name: Ensure log2ram service is enabled
   ansible.builtin.systemd:
     name: log2ram
     enabled: yes
     daemon_reload: yes
+  become: true
 - name: Ensure journal directory exists
   ansible.builtin.file:
     path: /var/log/journal
     state: directory
     mode: "0755"
   notify: restart journald
+  become: true

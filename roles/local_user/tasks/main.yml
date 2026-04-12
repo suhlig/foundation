@@ -1,57 +1,14 @@
-- name: user "{{ local_user.name }}" exists
+- name: User "{{ local_user.name }}" exists
   ansible.builtin.user:
     name: "{{ local_user.name }}"
     comment: "{{ local_user.comment }}"
     state: present
+  become: true
   tags: [ folders ]
-- name: user "{{ local_user.name }}" accepts github keys of {{local_user.github_user}}
-  ansible.posix.authorized_key:
-    user: "{{ local_user.name }}"
-    state: present
-    key: https://github.com/{{local_user.github_user}}.keys
-  tags: [ user, ssh ]
-- name: software is installed
-  ansible.builtin.apt:
-    update_cache: yes
-    name:
-      - git
-      - htop
-      - jq
-      - neovim
-      - ripgrep
-      - tmux
-      - zsh
-  tags: [ apt, software, zsh ]
-- name: zsh is the shell
-  ansible.builtin.user:
-    name: "{{ local_user.name }}"
-    shell: /usr/bin/zsh
-  tags: [ shell, zsh ]
-- name: There is no stupid login message
-  ansible.builtin.file:
-    path:  "/home/{{ local_user.name }}/.hushlogin"
-    state: touch
-    owner: "{{ local_user.name }}"
-    group: "{{ local_user.name }}"
-    mode:  0755
-  tags: [ user, login ]
-- name: Passwordless sudo is enabled
+- name: Passwordless sudo is enabled for "{{ local_user.name }}"
   ansible.builtin.copy:
     dest: "/etc/sudoers.d/{{ local_user.name }}"
     content: "{{ local_user.name }} ALL=(ALL) NOPASSWD: ALL"
     validate: /usr/sbin/visudo -cf %s
+  become: true
   tags: [ sudo, su, password ]
-- name: Minimal tmux config is present
-  ansible.builtin.copy:
-    src: tmux.conf
-    dest: "/home/{{ local_user.name }}/.tmux.conf"
-    mode: "0644"
-  tags: [ tmux, config ]
-- name: Minimal .zshrc is present
-  ansible.builtin.file:
-    path: "/home/{{ local_user.name }}/.zshrc"
-    state: touch
-    owner: "{{ local_user.name }}"
-    group: "{{ local_user.name }}"
-    mode:  0755
-  tags: [ zsh, config ]

@@ -1,16 +1,43 @@
-- name: Prerequisite software is installed
+- name: Desired software is installed
   ansible.builtin.apt:
     update_cache: yes
-    name: [ acl, starship, stow ]
-  tags: [ apt, software, acl ]
-- name: dotfiles repo is cloned and up-to-date
+    name:
+      - git
+      - htop
+      - jq
+      - neovim
+      - ripgrep
+      - stow
+      - tmux
+      - zsh
+  become: true
+  tags: [ apt, software ]
+- name: Optional software is installed
+  ansible.builtin.apt:
+    update_cache: yes
+    name: starship
+  ignore_errors: true
+  become: true
+  tags: [ apt, software, optional ]
+- name: zsh is the shell
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  become: true
+  tags: [ shell, zsh ]
+- name: User accepts github keys of "{{github_user}}"
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "https://github.com/{{ github_user }}.keys"
+    state: present
+  when: github_user is defined and github_user | length > 0
+  tags: [ user, ssh ]
+- name: suhlig's dotfiles repo is cloned and up-to-date
   ansible.builtin.git:
     repo: https://github.com/suhlig/dotfiles
     dest: ~/.dotfiles
   environment: { GIT_CONFIG_GLOBAL: /dev/null }
-  become: true
-  become_user: suhlig
-  tags: [git, dotfiles]
+  tags: [ git, dotfiles ]
 - name: Unwanted default dotfiles are not present
   ansible.builtin.file:
     path: "{{ item }}"
@@ -20,24 +47,16 @@
     - ~/.bashrc
     - ~/.zshrc
     - ~/.tmux.conf # override the one from suhlig.foundation.minimal
-    - ~/.hushlogin # may be there from suhlig.foundation.local_user
-  become: true
-  become_user: suhlig
-  tags: [dotfiles, profile]
+  tags: [ dotfiles, profile ]
 - name: dotfiles are bootstrapped
   ansible.builtin.shell: ./bootstrap.zsh
   args:
     chdir: ~/.dotfiles
     creates: ~/.zsh_plugins.txt
-  become: true
-  become_user: suhlig
-  tags: [dotfiles, stow]
+  tags: [ dotfiles, stow ]
 - name: tmux tpm plugin is cloned and up-to-date
   ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: ~/.tmux/plugins/tpm
-  environment:
-    GIT_CONFIG_GLOBAL: /dev/null
-  become: true
-  become_user: suhlig
-  tags: [git, dotfiles, plugin]
+  environment: { GIT_CONFIG_GLOBAL: /dev/null }
+  tags: [ git, dotfiles, plugin ]

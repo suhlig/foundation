@@ -13,8 +13,6 @@ galaxy_info:
         - all
 dependencies:
   - role: suhlig.foundation.minimal
-    become: true
     tags: [ suhlig ]
   - role: suhlig.foundation.atuin
-    become: true
     tags: [ atuin ]

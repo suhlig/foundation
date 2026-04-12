@@ -3,9 +3,7 @@
     src: tmux.local
     dest: ~/.tmux.local
     mode: 0644
-  become: true
-  become_user: suhlig
-  tags: tmux
+  tags: [ tmux ]
 - name: Hardware watchdog is enabled # https://raspberrypi.stackexchange.com/a/113193
   ansible.builtin.lineinfile:
     path: /etc/systemd/system.conf

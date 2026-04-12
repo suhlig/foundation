@@ -7,9 +7,6 @@
         local_user:
           name: suhlig
           comment: Steffen Uhlig
-          github_user: suhlig
-      become: true
       tags: [ suhlig, user ]
     - role: suhlig.foundation.main
-      become: true
       tags: [ suhlig, bootstrap, foundation ]

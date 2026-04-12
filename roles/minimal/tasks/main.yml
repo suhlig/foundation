@@ -5,18 +5,21 @@
       - apt-transport-https
       - aptitude # required for upgrade mode 'full'
       - sudo
-  tags: [apt, software]
+  become: true
+  tags: [ apt, software ]
 - name: software-properties-common is installed on Debian < 13
   ansible.builtin.apt:
     name: software-properties-common
   when: ansible_distribution == "Debian" and ansible_distribution_major_version < "13"
-  tags: [apt, software]
+  become: true
+  tags: [ apt, software ]
 - name: Software is fully upgraded
-  ansible.builtin.apt:
-    upgrade: full
-  tags: [apt, upgrade]
+  ansible.builtin.apt: { upgrade: full }
+  become: true
+  tags: [ apt, upgrade ]
 - name: Preferred locale exists
   ansible.builtin.locale_gen:
     name: en_US.UTF-8
     state: present
-  tags: [l10n, i18n, locale]
+  become: true
+  tags: [ l10n, i18n, locale ]

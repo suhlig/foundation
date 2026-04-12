@@ -7,5 +7,4 @@
 - name: Atuin is installed
   ansible.builtin.command: /tmp/install_atuin.sh --non-interactive
   args: { creates: ~/.atuin/bin/atuin }
-  become_user: suhlig
   tags: [ atuin, shell, history ]
