@@ -5,6 +5,10 @@ Wants=network.target
 
 [Service]
 ExecStart=/usr/local/bin/mediamtx /usr/local/etc/mediamtx.yml
+Restart=on-failure
+StartLimitBurst=10
+StartLimitIntervalSec=10
+# or StartLimitInterval=10
 
 [Install]
 WantedBy=multi-user.target
