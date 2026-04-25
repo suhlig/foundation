@@ -9,7 +9,7 @@ konsible_domain: "{{ domain }}"
 konsible_docker_network: traefik
 
 # The Go package name to build; either local (e.g. "./golden-egg") or fully qualified (e.g. "github.com/nowak-reisen/pile/golden-egg")
-konsible_package: "./app"
+konsible_package: .
 
 # The platform to build for
 konsible_platform: "linux/arm64"
@@ -19,3 +19,6 @@ konsible_port: "8080"
 
 # Additional labels to add to the app container
 konsible_labels: {}
+
+# Environment variables to pass to the app container
+konsible_app_env: {}

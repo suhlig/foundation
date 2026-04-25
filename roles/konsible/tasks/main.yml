@@ -38,6 +38,7 @@
     restart: true
     restart_policy: always
     networks: [ name: "{{ konsible_docker_network }}" ]
+    env: "{{ konsible_app_env }}"
     labels: |
       {{
         {
