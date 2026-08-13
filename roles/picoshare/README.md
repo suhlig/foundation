@@ -27,6 +27,12 @@ psu systemctl --user status picoshare
 psu journalctl --user -u picoshare -f
 ```
 
-For the log files alone there is a shorter root-only variant: `journalctl --user-unit=picoshare -f`.
+As root, the shortest way to follow the logs is to filter the system journal for the user unit:
+
+```sh
+journalctl _SYSTEMD_USER_UNIT=picoshare.service -f
+```
+
+Note that `journalctl --user-unit=picoshare` does **not** work for this, not even as root: `--user-unit` scopes to the invoking user's *own* user manager, and root's manager has no `picoshare.service`. Only the `picoshare` user itself (via `psu`) can use `--user`/`--user-unit`.
 
 The service starts automatically at boot; lingering is enabled for the `picoshare` user by the role.
