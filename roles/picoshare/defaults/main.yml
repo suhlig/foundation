@@ -9,4 +9,6 @@ picoshare_home: /var/lib/picoshare
 picoshare_bin_dir: "{{ picoshare_home }}/.local/bin"
 picoshare_data_dir: "{{ picoshare_home }}/.local/state/picoshare"
 picoshare_port: 4001
+# Set to true when PicoShare runs behind a reverse proxy, e.g. Caddy or nginx
+picoshare_behind_proxy: false
 picoshare_secret_file: "{{ picoshare_home }}/.config/picoshare/shared-secret"
