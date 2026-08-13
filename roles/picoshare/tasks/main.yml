@@ -1,0 +1,108 @@
+- name: Architecture is supported by PicoShare
+  ansible.builtin.fail:
+    msg: "PicoShare has no release for architecture '{{ ansible_facts['architecture'] }}' (supported: x86_64, aarch64, armv7l)"
+  when: ansible_facts['architecture'] not in picoshare_architectures
+  tags: [ picoshare, binary, github ]
+- name: picoshare system user is present
+  ansible.builtin.user:
+    name: "{{ picoshare_user }}"
+    system: true
+    home: "{{ picoshare_home }}"
+    create_home: true
+    shell: /usr/sbin/nologin
+  register: picoshare_user_result
+  become: true
+  tags: [ picoshare, user ]
+- name: Systemd user lingering is enabled for picoshare
+  ansible.builtin.command: loginctl enable-linger {{ picoshare_user }}
+  become: true
+  changed_when: false
+  tags: [ picoshare, systemd, user ]
+- name: PicoShare bin directory is present
+  ansible.builtin.file:
+    path: "{{ picoshare_bin_dir }}"
+    state: directory
+    owner: "{{ picoshare_user }}"
+    group: "{{ picoshare_user }}"
+    mode: "0755"
+  become: true
+  tags: [ picoshare, binary, github ]
+- name: PicoShare binary is present
+  ansible.builtin.unarchive:
+    src: "https://github.com/mtlynch/picoshare/releases/download/v{{ picoshare_version }}/picoshare-v{{ picoshare_version }}-{{ ansible_system | lower }}-{{ [ansible_facts['architecture']] | map('extract', picoshare_architectures) | first }}.tar.gz"
+    dest: "{{ picoshare_bin_dir }}"
+    include: picoshare
+    remote_src: true
+  become: true
+  tags: [ picoshare, binary, github ]
+- name: PicoShare binary is owned by the picoshare user
+  ansible.builtin.file:
+    path: "{{ picoshare_bin_dir }}/picoshare"
+    owner: "{{ picoshare_user }}"
+    group: "{{ picoshare_user }}"
+    mode: "0755"
+  become: true
+  tags: [ picoshare, binary, github ]
+- name: PicoShare data directory is present
+  ansible.builtin.file:
+    path: "{{ picoshare_data_dir }}"
+    state: directory
+    owner: "{{ picoshare_user }}"
+    group: "{{ picoshare_user }}"
+    mode: "0750"
+  become: true
+  tags: [ picoshare, data ]
+- name: PicoShare configuration directory is present
+  ansible.builtin.file:
+    path: "{{ picoshare_secret_file | dirname }}"
+    state: directory
+    owner: "{{ picoshare_user }}"
+    group: "{{ picoshare_user }}"
+    mode: "0755"
+  become: true
+  tags: [ picoshare, secret, config ]
+- name: PicoShare shared secret file is present
+  ansible.builtin.copy:
+    dest: "{{ picoshare_secret_file }}"
+    content: "{{ picoshare.shared_secret }}\n"
+    mode: "0600"
+    owner: "{{ picoshare_user }}"
+    group: "{{ picoshare_user }}"
+  register: secret_rendered
+  no_log: true
+  become: true
+  tags: [ picoshare, secret, config ]
+- name: systemd user service file is present
+  ansible.builtin.template:
+    src: picoshare.service.j2
+    dest: /etc/systemd/user/picoshare.service
+    mode: "0644"
+  register: service_rendered
+  become: true
+  tags: [ picoshare, systemd, service, config ]
+- name: Systemd user service is enabled and started
+  ansible.builtin.systemd:
+    name: picoshare.service
+    scope: user
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: "{{ picoshare_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ picoshare_user_result.uid }}"
+  when: not(service_rendered.changed) and not(secret_rendered.changed)
+  tags: [ systemd, service, config ]
+- name: Systemd user service is enabled and restarted
+  ansible.builtin.systemd:
+    name: picoshare.service
+    scope: user
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: "{{ picoshare_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ picoshare_user_result.uid }}"
+  when: service_rendered.changed or secret_rendered.changed
+  tags: [ systemd, service, config ]

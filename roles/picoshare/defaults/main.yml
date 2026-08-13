@@ -1,0 +1,12 @@
+# map ansible_facts['architecture'] to the architecture part of the download URL
+picoshare_architectures:
+  x86_64: amd64   # AMD64
+  aarch64: arm64  # ARM64 (e.g. Raspberry Pi with 64-bit OS)
+  armv7l: armv7   # Raspberry Pi with 32-bit OS (ARMv7)
+picoshare_version: 1.5.4 # get one from https://github.com/mtlynch/picoshare/releases
+picoshare_user: picoshare
+picoshare_home: /var/lib/picoshare
+picoshare_bin_dir: "{{ picoshare_home }}/.local/bin"
+picoshare_data_dir: "{{ picoshare_home }}/.local/state/picoshare"
+picoshare_port: 4001
+picoshare_secret_file: "{{ picoshare_home }}/.config/picoshare/shared-secret"

@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+[Service]
+ExecStart={{ picoshare_bin_dir }}/picoshare -db {{ picoshare_data_dir }}/store.db
+Environment=PORT={{ picoshare_port }}
+Environment=PS_SHARED_SECRET_FILE={{ picoshare_secret_file }}
+Restart=on-failure
+StartLimitBurst=10
+StartLimitIntervalSec=10
+
+[Install]
+WantedBy=default.target
