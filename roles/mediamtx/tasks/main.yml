@@ -22,11 +22,14 @@
   become: yes
   tags: [ mediamtx, systemd, service, config ]
 - name: Systemd service is enabled and started
-  ansible.builtin.systemd: &service
+  # Shared systemd args (anchor) for both tasks; 'state' is set per task.
+  vars: &service
     name: "mediamtx.service"
-    state: started
     enabled: true
     daemon_reload: true
+  ansible.builtin.systemd:
+    <<: *service
+    state: started
   when: not(service_rendered.changed)
   tags: [ systemd, service, config ]
 - name: Systemd service is enabled and restarted
