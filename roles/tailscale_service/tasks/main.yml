@@ -4,7 +4,7 @@
 # per-service manual steps.
 
 - name: Tailscale CLI is available
-  ansible.builtin.command: command -v tailscale
+  ansible.builtin.shell: command -v tailscale
   register: tailscale_service_bin
   changed_when: false
   failed_when: false
@@ -20,6 +20,7 @@
       - serve
       - --service={{ tailscale_service_name }}
       - --https={{ tailscale_service_port }}
+      - --yes
       - "{{ tailscale_service_backend }}"
   changed_when: false
   when: tailscale_service_bin.rc == 0
