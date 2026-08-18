@@ -19,6 +19,13 @@
   ansible.builtin.stat:
     path: /usr/local/bin/log2ram
   register: log2ram_bin
+- name: log2ram service is stopped before (re)install
+  ansible.builtin.systemd:
+    name: log2ram
+    state: stopped
+  when: not log2ram_bin.stat.exists
+  failed_when: false
+  become: true
 - name: log2ram is installed
   ansible.builtin.shell: ./install.sh
   args:
