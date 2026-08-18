@@ -1,0 +1,35 @@
+# Publishes a local HTTP(S) backend as a Tailscale Service: a stable
+# MagicDNS name (<name>.<tailnet>.ts.net), a TailVIP, an auto-provisioned
+# TLS certificate, tailnet-only. See README.md for the one-time and
+# per-service manual steps.
+
+- name: Tailscale CLI is available
+  ansible.builtin.command: command -v tailscale
+  register: tailscale_service_bin
+  changed_when: false
+  failed_when: false
+  tags: [ tailscale, service ]
+
+# Configures and advertises the endpoint in one step (background mode).
+# Re-running updates the same endpoint without touching other Services on
+# the host, unlike "set-config --all" which replaces them.
+- name: Tailscale Service is configured and advertised
+  ansible.builtin.command:
+    argv:
+      - tailscale
+      - serve
+      - --service={{ tailscale_service_name }}
+      - --https={{ tailscale_service_port }}
+      - "{{ tailscale_service_backend }}"
+  changed_when: false
+  when: tailscale_service_bin.rc == 0
+  tags: [ tailscale, service, config ]
+
+- name: Tailscale Service approval reminder
+  ansible.builtin.debug:
+    msg: >-
+      Tailscale Service {{ tailscale_service_name }} needs approval in the
+      admin console (Services > Service hosts > Approve) unless auto-approval
+      is configured for this device's tag.
+  when: tailscale_service_bin.rc == 0
+  tags: [ tailscale, service ]

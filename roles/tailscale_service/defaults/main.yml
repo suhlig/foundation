@@ -1,0 +1,9 @@
+# Identity of the Tailscale Service; must match the Service defined in the
+# admin console and include the svc: prefix.
+tailscale_service_name: svc:example
+
+# Port the Service listens on (HTTPS with auto-provisioned TLS certificate).
+tailscale_service_port: 443
+
+# Local backend to proxy to, e.g. http://127.0.0.1:8123.
+tailscale_service_backend: http://127.0.0.1:8080
