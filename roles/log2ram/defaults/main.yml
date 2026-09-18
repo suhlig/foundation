@@ -1,2 +1,5 @@
 log2ram_size: "128M"
 log2ram_log_disk_space: "1G"
+# Cap the systemd journal so it always fits log2ram's RAM disk (SIZE above);
+# without this, a journal grown past the cap makes log2ram fail on boot.
+log2ram_journal_max_use: "64M"

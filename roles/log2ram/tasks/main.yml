@@ -52,3 +52,12 @@
     mode: "0755"
   notify: restart journald
   become: true
+- name: journald journal size is bounded so it fits the log2ram RAM disk
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: '^#?SystemMaxUse='
+    line: 'SystemMaxUse={{ log2ram_journal_max_use }}'
+    insertafter: '^\[Journal\]'
+    backup: true
+  notify: restart journald
+  become: true
