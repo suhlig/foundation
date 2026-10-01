@@ -16,3 +16,6 @@ dependencies:
     tags: [ suhlig ]
   - role: suhlig.foundation.atuin
     tags: [ atuin ]
+
+collections:
+  - ansible.posix

@@ -13,3 +13,6 @@ galaxy_info:
     - traefik
     - ko
 dependencies: []
+
+collections:
+  - community.docker
